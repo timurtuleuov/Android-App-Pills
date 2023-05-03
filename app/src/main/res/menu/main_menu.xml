@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/pills_set"
+        android:orderInCategory="1"
+        android:title="Сделать напоминание"
+        />
+    <item
+        android:id="@+id/pills_list"
+        android:orderInCategory="1"
+        android:title="Список напоминаний"
+        />
+</menu>
