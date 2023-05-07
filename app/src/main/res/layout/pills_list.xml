@@ -1,42 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/drugsList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/drug_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:text="Название лекарства"
+        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/drug_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Название лекарства"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/drug_dose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Дозировка лекарства"
+        android:textColor="@color/gray"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/drug_dose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Дозировка лекарства"
-            android:textSize="16sp"
-            android:textColor="@color/gray" />
-
-        <TextView
+    <TextView
             android:id="@+id/drug_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Время приема"
-            android:textSize="16sp"
-            android:textColor="@color/gray" />
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
+
+<!--<LinearLayout-->
+<!--android:id="@+id/layout_id"-->
+<!--android:layout_width="420dp"-->
+<!--android:layout_height="112dp"-->
+<!--android:orientation="vertical"-->
+<!--android:padding="16dp"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toTopOf="parent">-->
+
+<!--<TextView-->
+<!--    android:id="@+id/drug_name"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:text="Название лекарства"-->
+<!--    android:textSize="18sp" />-->
+
+<!--<TextView-->
+<!--    android:id="@+id/drug_dose"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:text="Дозировка лекарства"-->
+<!--    android:textColor="@color/gray"-->
+<!--    android:textSize="16sp" />-->
+
+<!--<TextView-->
+<!--    android:id="@+id/drug_time"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:text="Время приема"-->
+<!--    android:textColor="@color/gray"-->
+<!--    android:textSize="16sp" />-->
+
+<!--</LinearLayout>-->
