@@ -14,7 +14,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String sql = "CREATE TABLE IF NOT EXISTS drugs(id INTEGER PRIMARy KEY AUTOINCREMENT, name TEXT, dose TEXT, hour INTEGER, minute INTEGER)";
+        String sql = "CREATE TABLE IF NOT EXISTS drugs(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, dose TEXT, hour INTEGER, minute INTEGER)";
         db.execSQL(sql);
     }
 

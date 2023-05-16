@@ -7,9 +7,12 @@
     tools:context=".MainActivity">
 
     <ListView
-    android:id="@+id/drug_list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        />
+        android:id="@+id/drug_list"
+        android:layout_width="match_parent"
+        android:layout_height="620dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
