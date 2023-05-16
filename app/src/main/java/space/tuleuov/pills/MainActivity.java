@@ -1,10 +1,8 @@
 package space.tuleuov.pills;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,15 +10,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     DataBase dataBase;
@@ -61,28 +58,48 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.pills_list:
-//                private List<Drug> drugs;
-                setContentView(R.layout.pills_list);
-//                ListView drugsList = findViewById(R.id.drugsList);
-//                String[] names = {
-//                        "Финлепсин","Аспирин","ГАБА","Снюс"
-//                };
-//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-//                        this,
-//                        android.R.layout.simple_list_item_1,
-//                        names
-//                );
-//                drugsList.setAdapter(adapter);
 
+                setContentView(R.layout.pills_list);
                 ListView drugsList = findViewById(R.id.drugsList);
+                if (drugsList != null && !drugs.isEmpty()) {
+                    drugs.clear(); //
+                }
+
                 setInitialData();
                 DrugsAdapter drugsAdapter = new DrugsAdapter(this, R.layout.pills_list_one_object, drugs);
                 drugsList.setAdapter(drugsAdapter);
-
                 return true;
             case R.id.pills_set:
-                Intent intent = new Intent(MainActivity.this, DrugSet.class);
-                startActivity(intent);
+                setContentView(R.layout.pills_set);
+                EditText nameEditText = findViewById(R.id.medication_name);
+                EditText doseEditText = findViewById(R.id.dose);
+                TimePicker drugTime = (TimePicker) findViewById(R.id.time);
+
+                drugTime.setIs24HourView(true);
+
+                Button saveButton = findViewById(R.id.save_button);
+                saveButton.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        String name = nameEditText.getText().toString();
+                        String dose = doseEditText.getText().toString();
+                        int hour = drugTime.getHour();
+                        int minute = drugTime.getMinute();
+
+                        SQLiteDatabase db = dataBase.getWritableDatabase();
+
+                        ContentValues row  = new ContentValues();
+                        row.put("name", name);
+                        row.put("dose", dose);
+                        row.put("hour", hour);
+                        row.put("minute", minute);
+                        long newRow = db.insert("drugs", null, row);
+                        db.close();
+                        Toast.makeText(MainActivity.this, "Запись сохранена", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, MainActivity.class); // Создаем явное намерение для перехода на активность PillsListActivity
+                        startActivity(intent); // Запускаем новую активность
+                    }
+                });
                 return true;
         }
         return false;
@@ -91,24 +108,23 @@ public class MainActivity extends AppCompatActivity {
         dataBase = new DataBase(this);
         SQLiteDatabase db = dataBase.getReadableDatabase();
 
-        String query = "SELECT * FROM drugs";
+        String query = "SELECT * FROM drugs ORDER BY id DESC";
         Cursor cursor = db.rawQuery(query, null);
-
-        while (cursor.moveToNext()) {
-            long id = cursor.getColumnIndex("id");
-            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            String dose = cursor.getString(cursor.getColumnIndexOrThrow("dose"));
-            String hour = cursor.getString(cursor.getColumnIndexOrThrow("hour"));
-            String minute = cursor.getString(cursor.getColumnIndexOrThrow("minute"));
-            Drug model = new Drug(id, name, dose, hour, minute);
-            drugs.add(model);
+        try{
+            while (cursor.moveToNext()) {
+                long id = cursor.getColumnIndex("id");
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String dose = cursor.getString(cursor.getColumnIndexOrThrow("dose"));
+                String hour = cursor.getString(cursor.getColumnIndexOrThrow("hour"));
+                String minute = cursor.getString(cursor.getColumnIndexOrThrow("minute"));
+                Drug model = new Drug(id, name, dose, hour, minute);
+                drugs.add(model);
+            }
+        }
+        finally {
+            cursor.close();
         }
 
-
-//        drugs.add(new Drug(1, "Финлепсин", "Пол таблетки", "11", "30"));
-//        drugs.add(new Drug(2, "Финлепсин", "Целая таблетка", "23", "30"));
-//        drugs.add(new Drug(3, "ГАБА", "Две капсулы", "11", "30"));
-//        drugs.add(new Drug(4, "Снюс", "Одна снюсенка", "10", "30"));
 
     }
     @Override
