@@ -1,21 +1,21 @@
 package space.tuleuov.pills;
 
 public class Drug {
-    private long id;
+    private int id;
     private String name;
     private String dose;
     private String hour;
     private String minute;
 
-    public Drug(long id, String name, String dose, String hour, String minute){
+    public Drug(int id, String name, String dose, String hour, String minute){
         this.id = id;
         this.name = name;
         this.dose = dose;
         this.hour = hour;
         this.minute = minute;
     }
-    public long getId() { return  this.id; }
-    public void setId(long id) {this.id = id;}
+    public int getId() { return  this.id; }
+    public void setId(int id) {this.id = id;}
     public String getName(){
         return this.name;
     }

@@ -1,6 +1,8 @@
 package space.tuleuov.pills;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -17,16 +19,23 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import java.io.Console;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     DataBase dataBase;
     ArrayList<Drug> drugs = new ArrayList<Drug>();
 
+    private static final int NOTIFY_ID = 101;
+    private static final String CHANNEL_ID = "Pills channel";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.pills_list);
 
         //БАЗА ДАННЫХ
 
@@ -34,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         ListView drugsList = findViewById(R.id.drugsList);
         setInitialData();
-        DrugsAdapter drugsAdapter = new DrugsAdapter(this, R.layout.pills_list_one_object, drugs);
+        DrugsAdapter drugsAdapter = new DrugsAdapter(this, R.layout.pills_list_one_object, drugs, dataBase);
         drugsList.setAdapter(drugsAdapter);
 
 
@@ -66,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 setInitialData();
-                DrugsAdapter drugsAdapter = new DrugsAdapter(this, R.layout.pills_list_one_object, drugs);
+                DrugsAdapter drugsAdapter = new DrugsAdapter(this, R.layout.pills_list_one_object, drugs, dataBase);
                 drugsList.setAdapter(drugsAdapter);
                 return true;
             case R.id.pills_set:
@@ -112,12 +121,25 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery(query, null);
         try{
             while (cursor.moveToNext()) {
-                long id = cursor.getColumnIndex("id");
+                int id = cursor.getColumnIndex("id");
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 String dose = cursor.getString(cursor.getColumnIndexOrThrow("dose"));
                 String hour = cursor.getString(cursor.getColumnIndexOrThrow("hour"));
                 String minute = cursor.getString(cursor.getColumnIndexOrThrow("minute"));
                 Drug model = new Drug(id, name, dose, hour, minute);
+                String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+                String dateOfPill = hour + ":" + minute;
+//                if (dateOfPill.equals(currentTime)) {
+//                    System.out.println("YEEES");
+//                    NotificationCompat.Builder builder =
+//                            new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+//                                    .setContentTitle("Пора пить таблетки")
+//                                    .setContentText("Пора пить "+ name + " дозировкой " + dose)
+//                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                    NotificationManagerCompat notificationManager =
+//                            NotificationManagerCompat.from(MainActivity.this);
+//                    notificationManager.notify(NOTIFY_ID, builder.build());
+//                }
                 drugs.add(model);
             }
         }
