@@ -1,8 +1,10 @@
 package space.tuleuov.pills;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class DataBase extends SQLiteOpenHelper {
     private static final String DB_NAME = "drugs.db";
@@ -22,6 +24,19 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete("drugs", "id = ?", new String[]{String.valueOf(drugId)});
     }
+    public int updateDrug(Drug drug, String newName, String newDose, int newHour, int newMinute) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("name", newName);
+        values.put("dose", newDose);
+        values.put("hour", newHour);
+        values.put("minute", newMinute);
+
+        return db.update("drugs", values, "id=?", new String[]{String.valueOf(drug.getId())});
+    }
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

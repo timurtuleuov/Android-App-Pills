@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery(query, null);
         try{
             while (cursor.moveToNext()) {
-                int id = cursor.getColumnIndex("id");
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 String dose = cursor.getString(cursor.getColumnIndexOrThrow("dose"));
                 String hour = cursor.getString(cursor.getColumnIndexOrThrow("hour"));
